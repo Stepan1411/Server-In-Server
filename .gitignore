@@ -1,0 +1,7 @@
+/.gradle
+/.idea
+/build/classes
+/build/reports
+/build/resources
+/build/tmp
+/run

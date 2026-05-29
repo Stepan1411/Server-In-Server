@@ -1,0 +1,31 @@
+auto-eula: false
+lobby-server: "lobby"
+
+servers:
+  - name: "lobby"
+    jar: "servers/lobby/server.jar"
+    directory: "servers/lobby"
+    port: 0
+    flags: "-Xmx1G -Xms512M"
+    auto:
+      start: true
+      restart: true
+      retry-count: 0
+    stop:
+      command: "stop"
+      wait-to-stop: true
+      wait: 10
+
+  - name: "survival"
+    jar: "servers/survival/server.jar"
+    directory: "servers/survival"
+    port: 0
+    flags: "-Xmx2G -Xms1G"
+    auto:
+      start: false
+      restart: true
+      retry-count: 3
+    stop:
+      command: "stop"
+      wait-to-stop: true
+      wait: 15

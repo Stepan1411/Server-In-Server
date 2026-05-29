@@ -1,0 +1,6 @@
+{
+  "id": "server-in-server",
+  "name": "Server-In-Server",
+  "version": "${version}",
+  "main": "ru.stepan1411.serverInServer.ServerInServer"
+}
