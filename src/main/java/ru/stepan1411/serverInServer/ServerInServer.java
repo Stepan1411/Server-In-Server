@@ -50,6 +50,7 @@ public class ServerInServer {
     private Path configFile;
     private boolean autoEula;
     private String lobbyServer;
+    private int shutdownDelay;
 
     public ServerInServer() {
         DumperOptions dumperOptions = new DumperOptions();
@@ -100,6 +101,17 @@ public class ServerInServer {
 
     @Subscribe
     public void onProxyShutdown(ProxyShutdownEvent event) {
+        logger.info("Proxy shutting down...");
+
+        if (shutdownDelay > 0) {
+            logger.info("Waiting {} seconds before stopping servers...", shutdownDelay);
+            try {
+                Thread.sleep(shutdownDelay * 1000L);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
         logger.info("Shutting down all managed servers...");
         stopAllServers();
     }
@@ -130,12 +142,26 @@ public class ServerInServer {
                 data.put("lobby-server", "");
                 needsRewrite = true;
             }
+            if (!data.containsKey("shutdown")) {
+                Map<String, Object> shutdownSection = new java.util.LinkedHashMap<>();
+                shutdownSection.put("delay", 5);
+                data.put("shutdown", shutdownSection);
+                needsRewrite = true;
+            }
 
             Object autoEulaObj = data.get("auto-eula");
             autoEula = autoEulaObj instanceof Boolean && (Boolean) autoEulaObj;
 
             lobbyServer = (String) data.get("lobby-server");
             if (lobbyServer != null && lobbyServer.isBlank()) lobbyServer = null;
+
+            Map<String, Object> shutdownSection = (Map<String, Object>) data.get("shutdown");
+            if (shutdownSection != null) {
+                Object delayObj = shutdownSection.get("delay");
+                shutdownDelay = delayObj instanceof Number ? ((Number) delayObj).intValue() : 5;
+            } else {
+                shutdownDelay = 5;
+            }
 
             List<Map<String, Object>> serverList = (List<Map<String, Object>>) data.get("servers");
             if (serverList == null) return;

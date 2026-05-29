@@ -1,6 +1,13 @@
 auto-eula: false
 lobby-server: "lobby"
 
+shutdown:
+  delay: 5
+
+shutdown:
+  warning: "§cServer is shutting down!"
+  delay: 5
+
 servers:
   - name: "lobby"
     jar: "servers/lobby/server.jar"

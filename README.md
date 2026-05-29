@@ -20,12 +20,16 @@ When Velocity starts, the plugin reads `plugins/server-in-server/config.yml`. Fo
 ```yaml
 auto-eula: false
 lobby-server: "lobby"
+
+shutdown:
+  delay: 5
 ```
 
 | Field | Default | Description |
 |---|---|---|
 | `auto-eula` | `false` | If `true`, creates `eula.txt` with `eula=true` automatically for every server. If `false`, you must accept the EULA manually. |
 | `lobby-server` | `""` | Server name to connect players to when they first join the proxy. Leave empty to disable. |
+| `shutdown.delay` | `5` | Seconds to wait before stopping servers during proxy shutdown. |
 
 ### Server entries
 
